@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> , StudentCustomRepository {
@@ -34,5 +35,5 @@ public interface StudentRepository extends JpaRepository<Student, Long> , Studen
 
     List<Student> findByRollNo(String rollNo);
 
-    List<Student> findByEmail(String email);
+    Optional<Student> findByEmail(String email);
 }

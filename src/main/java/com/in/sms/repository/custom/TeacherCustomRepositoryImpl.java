@@ -1,6 +1,6 @@
 package com.in.sms.repository.custom;
 
-import com.in.sms.dto.TeacherSearchDto;
+import com.in.sms.dto.teacher.TeacherSearchDto;
 import com.in.sms.model.Teacher;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

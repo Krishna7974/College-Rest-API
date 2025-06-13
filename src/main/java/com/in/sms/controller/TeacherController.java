@@ -1,9 +1,8 @@
 package com.in.sms.controller;
 
-import com.in.sms.dto.TeacherRequestDto;
-import com.in.sms.dto.TeacherResponseDto;
-import com.in.sms.dto.TeacherSearchDto;
-import com.in.sms.model.Teacher;
+import com.in.sms.dto.teacher.TeacherRequestDto;
+import com.in.sms.dto.teacher.TeacherResponseDto;
+import com.in.sms.dto.teacher.TeacherSearchDto;
 import com.in.sms.service.TeacherService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,8 +27,7 @@ public class TeacherController {
     @PostMapping
     @Operation(summary = "Save new Teacher")
     public ResponseEntity<TeacherResponseDto> saveTeacher(@RequestBody TeacherRequestDto teacher) {
-        TeacherResponseDto savedTeacher = teacherService.saveTeacher(teacher);
-        return new ResponseEntity<>(savedTeacher, HttpStatus.CREATED);
+        return new ResponseEntity<>(teacherService.saveTeacher(teacher), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -46,13 +44,12 @@ public class TeacherController {
     @GetMapping
     @Operation(summary = "Get all Teachers")
     public ResponseEntity<List<TeacherResponseDto>> getAllTeachers() {
-        List<TeacherResponseDto> teachers = teacherService.getAllTeachers();
-        return new ResponseEntity<>(teachers, HttpStatus.OK);
+        return new ResponseEntity<>(teacherService.getAllTeachers(), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update Teacher by Id")
-    public ResponseEntity<TeacherResponseDto> updateTeacher(@PathVariable Long id, @RequestBody Teacher updatedTeacher) {
+    public ResponseEntity<TeacherResponseDto> updateTeacher(@PathVariable Long id, @RequestBody TeacherRequestDto updatedTeacher) {
         TeacherResponseDto teacher = teacherService.updateTeacher(id, updatedTeacher);
         if (teacher != null) {
             return new ResponseEntity<>(teacher, HttpStatus.OK);

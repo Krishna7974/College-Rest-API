@@ -22,12 +22,15 @@ public class Teacher {
     private String name;
     @Column(nullable = false,unique = true)
     private String email;
-//    @Column(nullable = false,unique = true)
-//    private String subject_code;
+    @Column(nullable = false)
+    private String password;
 
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Subject> subject;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles;
 
     @Override
     public String toString() {

@@ -1,4 +1,4 @@
-package com.in.sms.dto;
+package com.in.sms.dto.teacher;
 
 import lombok.Data;
 

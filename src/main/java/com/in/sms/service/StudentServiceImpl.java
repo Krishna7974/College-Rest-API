@@ -1,7 +1,9 @@
 package com.in.sms.service;
 
 import com.in.sms.dto.SemesterResponseDto;
-import com.in.sms.dto.StudentSearchDto;
+import com.in.sms.dto.student.StudentRequestDto;
+import com.in.sms.dto.student.StudentResponseDto;
+import com.in.sms.dto.student.StudentSearchDto;
 import com.in.sms.model.Semester;
 import com.in.sms.model.Student;
 import com.in.sms.repository.StudentRepository;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,21 +26,24 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private SemesterService semesterService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
-    public Student saveStudent(Student student) {
+    public StudentResponseDto saveStudent(StudentRequestDto requestDto) {
+        Student student=mapRequestToStudent(requestDto);
+        student.setPassword(passwordEncoder.encode(requestDto.getPassword()));
         String sem=student.getSemester().getName();
         SemesterResponseDto semester= semesterService.getSemesterByName(sem);
         Semester s=mapToSemester(semester);
         if(s!=null){
-            System.out.println();
             student.setSemester(s);
         }else{
             Semester semester1 =new Semester(student.getSemester().getName());
             SemesterResponseDto semester2 = semesterService.saveSemester(semester1);
             student.setSemester(mapToSemester(semester2));
         }
-        System.out.println(s);
-        return studentRepository.save(student);
+        return mapStudentToResponse(studentRepository.save(student));
     }
 
     public Semester mapToSemester(SemesterResponseDto responseDto){
@@ -48,26 +54,32 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student getStudentById(Long id) {
+    public StudentResponseDto getStudentById(Long id) {
         Optional<Student> optional=studentRepository.findById(id);
         if(optional.isPresent()){
-            return optional.get();
+            return mapStudentToResponse(optional.get());
         }else throw new RuntimeException("No student found for ID: " + id);
     }
 
     @Override
-    public List<Student> getAllStudents() {
-        return studentRepository.findAll();
+    public List<StudentResponseDto> getAllStudents() {
+        return studentRepository.findAll().stream().map(this::mapStudentToResponse).toList();
     }
 
     @Override
-    public Student updateStudent(Long id, Student updatedStudent) {
+    public StudentResponseDto updateStudent(Long id, StudentRequestDto requestDto) {
+        Student updatedStudent=mapRequestToStudent(requestDto);
         Optional<Student> existing = studentRepository.findById(id);
         if (existing.isPresent()) {
             updatedStudent.setId(id);
-            return studentRepository.save(updatedStudent);
+            if(requestDto.getPassword()!=null){
+                updatedStudent.setPassword(passwordEncoder.encode(requestDto.getPassword()));
+            }else {
+                updatedStudent.setPassword(existing.get().getPassword());
+            }
+            return mapStudentToResponse(studentRepository.save(updatedStudent));
         }
-        return null;
+        throw new RuntimeException("Student not found for id: "+id);
     }
 
     @Override
@@ -76,57 +88,39 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> getStudentsByClassRoomId(Long classRoomId) {
-        return null;
+    public Page<StudentResponseDto> searchStudent(StudentSearchDto studentSearchDto, Pageable pageable) {
+        Page<Student> studentPage=studentRepository.searchStudents(studentSearchDto,pageable);
+        List<StudentResponseDto> dtoList=studentPage.getContent().stream().map(this::mapStudentToResponse).toList();
+        return new PageImpl<>(dtoList,studentPage.getPageable(),studentPage.getTotalPages());
     }
 
-    @Override
-    public Page<Student> searchStudent(StudentSearchDto studentSearchDto, Pageable pageable) {
-        return studentRepository.searchStudents(studentSearchDto,pageable);
+    public Student mapRequestToStudent(StudentRequestDto studentDTO){
+        Student student = new Student();
+        student.setName(studentDTO.getName());
+        student.setEmail(studentDTO.getEmail());
+        student.setRollNo(studentDTO.getRollNo());
+        student.setSemester(studentDTO.getSemester());
+        student.setBranch(studentDTO.getBranch());
+        student.setCategory(studentDTO.getCategory());
+        student.setAddress(studentDTO.getAddress());
+        student.setParents(studentDTO.getParents());
+        student.setDocument(studentDTO.getDocument());
+        student.setRoles(List.of("STUDENT"));
+        return student;
     }
 
-//    @Override
-//    public Page<Student> searchStudent(StudentSearchDto studentSearchDto, Pageable pageable) {
-//
-//        if (studentSearchDto.getStdName() != null && !studentSearchDto.getStdName().isBlank()) {
-//            return setPages(studentRepository.searchStudentsByName("%" + studentSearchDto.getStdName() + "%"),pageable);
-//        }
-//
-//        if (studentSearchDto.getSem() != null && !studentSearchDto.getSem().isBlank()) {
-//
-//            return setPages(studentRepository.getStudentsBySemesterOrdered(studentSearchDto.getSem()),pageable);
-//        }
-//
-//        if (studentSearchDto.getBranch() != null && !studentSearchDto.getBranch().isBlank()) {
-//            return setPages(studentRepository.findByBranch(studentSearchDto.getBranch()),pageable);
-//        }
-//
-//        if (studentSearchDto.getCategory() != null && !studentSearchDto.getCategory().isBlank()) {
-//            return setPages(studentRepository.findByCategory(studentSearchDto.getCategory()),pageable);
-//        }
-//
-//        if (studentSearchDto.getAddress() != null && !studentSearchDto.getAddress().isBlank()) {
-//            return setPages(studentRepository.findByAddressContainingIgnoreCase(studentSearchDto.getAddress()),pageable);
-//        }
-//
-//        if (studentSearchDto.getRollNo() != null && !studentSearchDto.getRollNo().isBlank()) {
-//            return setPages(studentRepository.findByRollNo(studentSearchDto.getRollNo()),pageable);
-//        }
-//
-//        if (studentSearchDto.getEmail() != null && !studentSearchDto.getEmail().isBlank()) {
-//            return setPages(studentRepository.findByEmail(studentSearchDto.getEmail()),pageable);
-//        }
-//
-//        return setPages(null,pageable);
-//    }
-
-//    public Page<Student> setPages(List<Student> studentList,Pageable pageable){
-//        int startIndex=(int)pageable.getOffset();
-//        if(studentList==null || studentList.isEmpty() || startIndex>studentList.size()) throw new RuntimeException("No Data Found");
-//        int endIndex=Math.min(startIndex+pageable.getPageSize(),studentList.size());
-//
-//        List<Student> paginatedList=studentList.subList(startIndex,endIndex);
-//        return new PageImpl<>(paginatedList,pageable,studentList.size());
-//    }
-
+    public StudentResponseDto mapStudentToResponse(Student student){
+        StudentResponseDto studentResponseDto = new StudentResponseDto();
+        studentResponseDto.setId(student.getId());
+        studentResponseDto.setName(student.getName());
+        studentResponseDto.setEmail(student.getEmail());
+        studentResponseDto.setRollNo(student.getRollNo());
+        studentResponseDto.setSemester(student.getSemester());
+        studentResponseDto.setBranch(student.getBranch());
+        studentResponseDto.setCategory(student.getCategory());
+        studentResponseDto.setAddress(student.getAddress());
+        studentResponseDto.setParents(student.getParents());
+        studentResponseDto.setDocument(student.getDocument());
+        return studentResponseDto;
+    }
 }

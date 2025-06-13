@@ -1,11 +1,12 @@
-package com.in.sms.dto;
+package com.in.sms.dto.teacher;
 
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class TeacherRequestDto {
+public class TeacherResponseDto {
+    private Long id;
     private String name;
     private String email;
     private List<String> subject;

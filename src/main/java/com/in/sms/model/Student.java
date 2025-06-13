@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,7 +15,6 @@ import java.util.List;
 @NoArgsConstructor
 public class Student {
 
-    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -43,4 +43,7 @@ public class Student {
 
     @OneToMany(mappedBy = "student",fetch = FetchType.LAZY)
     private List<Document> document;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles;
 }

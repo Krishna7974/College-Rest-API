@@ -13,6 +13,7 @@ public class StudentRequestDto {
     private String name;
     private String email;
     private String password;
+    private String phoneNo;
     private String rollNo;
     private Semester semester;
     private String branch;

@@ -86,10 +86,10 @@ public class TeacherController {
     @PostMapping("/search")
     @Operation(summary = "Search Teacher by Name/Email/Subject")
     public ResponseEntity<List<TeacherResponseDto>> searchTeacher(@RequestBody TeacherSearchDto dto,
-                                           @RequestParam(defaultValue = "0", required = false) int pageNo,
-                                           @RequestParam(defaultValue = "5", required = false) int pageSize,
-                                           @RequestParam(defaultValue = "asc", required = false) String sortDir,
-                                           @RequestParam(defaultValue = "name", required = false) String sortBy) {
+                                                                  @RequestParam(defaultValue = "0", required = false) int pageNo,
+                                                                  @RequestParam(defaultValue = "5", required = false) int pageSize,
+                                                                  @RequestParam(defaultValue = "asc", required = false) String sortDir,
+                                                                  @RequestParam(defaultValue = "name", required = false) String sortBy) {
 
         logger.info("Received request to search teacher with criteria: {} | pageNo: {}, pageSize: {}, sortBy: {}, sortDir: {}",
                 dto, pageNo, pageSize, sortBy, sortDir);

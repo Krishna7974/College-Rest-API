@@ -13,6 +13,7 @@ public class StudentResponseDto {
     private String name;
     private String email;
     private String rollNo;
+    private String phoneNo;
     private Semester semester;
     private String branch;
     private String category;

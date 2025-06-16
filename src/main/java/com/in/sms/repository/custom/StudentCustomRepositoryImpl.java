@@ -57,6 +57,10 @@ public class StudentCustomRepositoryImpl implements StudentCustomRepository {
             predicates.add(cb.equal(cb.lower(root.get("email")), dto.getEmail().toLowerCase()));
         }
 
+        if (dto.getPhoneNo() != null && !dto.getPhoneNo().isBlank()) {
+            predicates.add(cb.like(root.get("phoneNo"), "%" + dto.getPhoneNo() + "%"));
+        }
+
         cq.where(cb.and(predicates.toArray(new Predicate[0])));
 
         if (pageable.getSort().isSorted()) {

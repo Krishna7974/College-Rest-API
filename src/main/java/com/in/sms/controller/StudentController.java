@@ -33,7 +33,7 @@ public class StudentController {
     public ResponseEntity<StudentResponseDto> addStudent(@RequestBody StudentRequestDto student) {
         logger.info("Received request to save new student: {}", student);
         StudentResponseDto savedStudent = studentService.saveStudent(student);
-        logger.info("Student saved successfully: {}", savedStudent);
+        logger.info("Student saved successfully rollNo: {}, name: {}", savedStudent.getRollNo(), savedStudent.getName());
         return new ResponseEntity<>(savedStudent, HttpStatus.CREATED);
     }
 

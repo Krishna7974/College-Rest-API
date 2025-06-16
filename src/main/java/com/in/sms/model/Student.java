@@ -41,9 +41,11 @@ public class Student {
     @ManyToOne(cascade = CascadeType.ALL)
     private Parents parents;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "student",fetch = FetchType.LAZY)
     private List<Document> document;
 
+    @JsonIgnore
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles;
 }

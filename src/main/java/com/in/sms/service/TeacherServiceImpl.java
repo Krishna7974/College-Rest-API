@@ -74,8 +74,10 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public Page<Teacher> searchTeacher(TeacherSearchDto dto, Pageable pageable) {
-        return teacherRepository.searchTeacher(dto,pageable);
+    public List<TeacherResponseDto> searchTeacher(TeacherSearchDto dto, Pageable pageable) {
+        Page<Teacher> teachersPage=teacherRepository.searchTeacher(dto,pageable);
+        List<TeacherResponseDto> dtoList=teachersPage.stream().map(this::mapTeacherToTeacherResponse).toList();
+        return dtoList;
     }
 
     public Teacher mapTeacherRequestToTeacher(TeacherRequestDto requestDto){

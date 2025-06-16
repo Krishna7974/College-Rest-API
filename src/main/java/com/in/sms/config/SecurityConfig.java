@@ -23,8 +23,16 @@ public class SecurityConfig {
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception{
         http
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/api/login/**").permitAll()
-                    .requestMatchers("/api/student/**").hasRole("USER")
+                    .requestMatchers(
+                            "/api/login/**",
+                            "/doc",
+                            "/swagger-ui.html",
+                            "/swagger-ui/**",
+                            "/v3/api-docs/**",
+                            "/v3/api-docs",
+                            "/webjars/**"
+                    ).permitAll()
+                    .requestMatchers("/api/student/**").hasRole("STUDENT")
                     .requestMatchers("/api/teacher/**").hasRole("TEACHER")
                     .anyRequest().authenticated()
             ).csrf(AbstractHttpConfigurer::disable);

@@ -2,14 +2,14 @@ package com.in.sms.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString(exclude = {"subject","roles"})
 @AllArgsConstructor
 @NoArgsConstructor
 public class Teacher {
@@ -31,14 +31,4 @@ public class Teacher {
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles;
-
-    @Override
-    public String toString() {
-        return "Teacher{" +
-                "email='" + email + '\'' +
-                ", id=" + id +
-                ", name='" + name + '\'' +
-                ", subject=" + subject +
-                '}';
-    }
 }

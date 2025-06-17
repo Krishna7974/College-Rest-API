@@ -12,10 +12,10 @@ import java.util.List;
 public class SwaggerConfig {
 
     @Bean
-    public OpenAPI customConfig(){
-        return  new OpenAPI()
+    public OpenAPI customConfig() {
+        return new OpenAPI()
                 .info(
-                new Info().title("College APIs").description("By Xyz"))
+                        new Info().title("College APIs").description("By Xyz"))
                 .servers(List.of(
                         new Server().url("http://localhost:8080/").description("live"),
                         new Server().url("http://localhost:8081/").description("local")

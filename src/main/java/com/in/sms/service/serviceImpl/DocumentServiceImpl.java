@@ -1,7 +1,8 @@
-package com.in.sms.service;
+package com.in.sms.service.serviceImpl;
 
 import com.in.sms.model.Document;
 import com.in.sms.repository.DocumentRepository;
+import com.in.sms.service.serviceInterfaces.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -9,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @Service
-public class DocumentServiceImpl implements DocumentService{
+public class DocumentServiceImpl implements DocumentService {
 
     @Autowired
     private DocumentRepository documentRepository;

@@ -3,7 +3,7 @@ package com.in.sms.controller;
 import com.in.sms.dto.student.StudentRequestDto;
 import com.in.sms.dto.student.StudentResponseDto;
 import com.in.sms.dto.student.StudentSearchDto;
-import com.in.sms.service.StudentService;
+import com.in.sms.service.serviceInterfaces.StudentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
@@ -33,7 +33,7 @@ public class StudentController {
     public ResponseEntity<StudentResponseDto> addStudent(@RequestBody StudentRequestDto student) {
         logger.info("Received request to save new student: {}", student);
         StudentResponseDto savedStudent = studentService.saveStudent(student);
-        logger.info("Student saved successfully: {}", savedStudent);
+        logger.info("Student saved successfully rollNo: {}, name: {}", savedStudent.getRollNo(), savedStudent.getName());
         return new ResponseEntity<>(savedStudent, HttpStatus.CREATED);
     }
 

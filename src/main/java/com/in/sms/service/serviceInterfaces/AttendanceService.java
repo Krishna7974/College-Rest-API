@@ -1,4 +1,4 @@
-package com.in.sms.service;
+package com.in.sms.service.serviceInterfaces;
 
 import com.in.sms.model.Attendance;
 

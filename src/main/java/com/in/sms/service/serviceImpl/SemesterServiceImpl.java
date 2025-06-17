@@ -1,9 +1,10 @@
-package com.in.sms.service;
+package com.in.sms.service.serviceImpl;
 
 import com.in.sms.dto.SemesterResponseDto;
 import com.in.sms.model.Semester;
 import com.in.sms.model.Subject;
 import com.in.sms.repository.SemesterRepository;
+import com.in.sms.service.serviceInterfaces.SemesterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

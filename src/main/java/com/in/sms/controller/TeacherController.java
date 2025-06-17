@@ -3,7 +3,7 @@ package com.in.sms.controller;
 import com.in.sms.dto.teacher.TeacherRequestDto;
 import com.in.sms.dto.teacher.TeacherResponseDto;
 import com.in.sms.dto.teacher.TeacherSearchDto;
-import com.in.sms.service.TeacherService;
+import com.in.sms.service.serviceInterfaces.TeacherService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
@@ -86,10 +86,10 @@ public class TeacherController {
     @PostMapping("/search")
     @Operation(summary = "Search Teacher by Name/Email/Subject")
     public ResponseEntity<List<TeacherResponseDto>> searchTeacher(@RequestBody TeacherSearchDto dto,
-                                           @RequestParam(defaultValue = "0", required = false) int pageNo,
-                                           @RequestParam(defaultValue = "5", required = false) int pageSize,
-                                           @RequestParam(defaultValue = "asc", required = false) String sortDir,
-                                           @RequestParam(defaultValue = "name", required = false) String sortBy) {
+                                                                  @RequestParam(defaultValue = "0", required = false) int pageNo,
+                                                                  @RequestParam(defaultValue = "5", required = false) int pageSize,
+                                                                  @RequestParam(defaultValue = "asc", required = false) String sortDir,
+                                                                  @RequestParam(defaultValue = "name", required = false) String sortBy) {
 
         logger.info("Received request to search teacher with criteria: {} | pageNo: {}, pageSize: {}, sortBy: {}, sortDir: {}",
                 dto, pageNo, pageSize, sortBy, sortDir);

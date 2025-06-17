@@ -1,15 +1,16 @@
 package com.in.sms.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.in.sms.customAnnotation.ValidSemester;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString(exclude = {"student","subjects"})
 @AllArgsConstructor
 @NoArgsConstructor
 public class Semester {
@@ -18,6 +19,8 @@ public class Semester {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private Long id;
+
+    @ValidSemester
     private String name;
 
     @JsonIgnore

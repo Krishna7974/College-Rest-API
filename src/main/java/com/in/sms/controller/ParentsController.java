@@ -1,7 +1,7 @@
 package com.in.sms.controller;
 
 import com.in.sms.model.Parents;
-import com.in.sms.service.ParentsService;
+import com.in.sms.service.serviceInterfaces.ParentsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;

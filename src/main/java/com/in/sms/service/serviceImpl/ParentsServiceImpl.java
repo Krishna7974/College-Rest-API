@@ -1,7 +1,8 @@
-package com.in.sms.service;
+package com.in.sms.service.serviceImpl;
 
 import com.in.sms.model.Parents;
 import com.in.sms.repository.ParentsRepository;
+import com.in.sms.service.serviceInterfaces.ParentsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

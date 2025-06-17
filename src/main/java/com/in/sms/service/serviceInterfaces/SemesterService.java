@@ -1,13 +1,9 @@
-package com.in.sms.service;
+package com.in.sms.service.serviceInterfaces;
 
 import com.in.sms.dto.SemesterResponseDto;
 import com.in.sms.model.Semester;
-import com.in.sms.model.Student;
-import com.in.sms.model.Subject;
-import com.in.sms.model.Teacher;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface SemesterService {
 

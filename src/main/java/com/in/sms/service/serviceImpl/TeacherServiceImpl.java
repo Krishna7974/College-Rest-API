@@ -1,4 +1,4 @@
-package com.in.sms.service;
+package com.in.sms.service.serviceImpl;
 
 import com.in.sms.dto.teacher.TeacherRequestDto;
 import com.in.sms.dto.teacher.TeacherResponseDto;
@@ -7,6 +7,7 @@ import com.in.sms.model.Subject;
 import com.in.sms.model.Teacher;
 import com.in.sms.repository.SubjectRepository;
 import com.in.sms.repository.TeacherRepository;
+import com.in.sms.service.serviceInterfaces.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -20,28 +20,28 @@ public class SecurityConfig {
     private AuthTokenFilter authTokenFilter;
 
     @Bean
-    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception{
+    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests(auth -> auth
-                    .requestMatchers(
-                            "/api/login/**",
-                            "/doc",
-                            "/swagger-ui.html",
-                            "/swagger-ui/**",
-                            "/v3/api-docs/**",
-                            "/v3/api-docs",
-                            "/webjars/**"
-                    ).permitAll()
-                    .requestMatchers("/api/student/**").hasRole("STUDENT")
-                    .requestMatchers("/api/teacher/**").hasRole("TEACHER")
-                    .anyRequest().authenticated()
-            ).csrf(AbstractHttpConfigurer::disable);
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/api/login/**",
+                                "/doc",
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/v3/api-docs",
+                                "/webjars/**"
+                        ).permitAll()
+                        .requestMatchers("/api/student/**").hasRole("STUDENT")
+                        .requestMatchers("/api/teacher/**").hasRole("TEACHER")
+                        .anyRequest().authenticated()
+                ).csrf(AbstractHttpConfigurer::disable);
         http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 

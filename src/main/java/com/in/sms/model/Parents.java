@@ -1,13 +1,18 @@
 package com.in.sms.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.in.sms.customAnnotation.ValidPhoneNumber;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString(exclude = "students")
 public class Parents {
 
     @Id
@@ -19,6 +24,9 @@ public class Parents {
     private String fatherName;
     @Column(nullable = false)
     private String motherName;
+
+    @ValidPhoneNumber
+    private String phoneNo;
 
     private Integer siblings;
 

@@ -1,9 +1,8 @@
-package com.in.sms.service;
+package com.in.sms.service.serviceInterfaces;
 
 import com.in.sms.dto.student.StudentRequestDto;
 import com.in.sms.dto.student.StudentResponseDto;
 import com.in.sms.dto.student.StudentSearchDto;
-import com.in.sms.model.Student;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -1,12 +1,16 @@
-package com.in.sms.service;
+package com.in.sms.service.serviceImpl;
 
 import com.in.sms.dto.SemesterResponseDto;
 import com.in.sms.dto.student.StudentRequestDto;
 import com.in.sms.dto.student.StudentResponseDto;
 import com.in.sms.dto.student.StudentSearchDto;
+import com.in.sms.model.Parents;
 import com.in.sms.model.Semester;
 import com.in.sms.model.Student;
+import com.in.sms.repository.ParentsRepository;
 import com.in.sms.repository.StudentRepository;
+import com.in.sms.service.serviceInterfaces.SemesterService;
+import com.in.sms.service.serviceInterfaces.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -27,6 +31,9 @@ public class StudentServiceImpl implements StudentService {
     private SemesterService semesterService;
 
     @Autowired
+    private ParentsRepository parentsRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
@@ -43,6 +50,8 @@ public class StudentServiceImpl implements StudentService {
             SemesterResponseDto semester2 = semesterService.saveSemester(semester1);
             student.setSemester(mapToSemester(semester2));
         }
+        Optional<Parents> p=parentsRepository.findParentsByFatherNameAndMotherNameAndSiblings(requestDto.getParents().getFatherName(),requestDto.getParents().getMotherName(),requestDto.getParents().getSiblings());
+        p.ifPresent(student::setParents);
         return mapStudentToResponse(studentRepository.save(student));
     }
 
@@ -101,6 +110,7 @@ public class StudentServiceImpl implements StudentService {
         student.setRollNo(studentDTO.getRollNo());
         student.setSemester(studentDTO.getSemester());
         student.setBranch(studentDTO.getBranch());
+        student.setPhoneNo(studentDTO.getPhoneNo());
         student.setCategory(studentDTO.getCategory());
         student.setAddress(studentDTO.getAddress());
         student.setParents(studentDTO.getParents());
@@ -115,6 +125,7 @@ public class StudentServiceImpl implements StudentService {
         studentResponseDto.setName(student.getName());
         studentResponseDto.setEmail(student.getEmail());
         studentResponseDto.setRollNo(student.getRollNo());
+        studentResponseDto.setPhoneNo(student.getPhoneNo());
         studentResponseDto.setSemester(student.getSemester());
         studentResponseDto.setBranch(student.getBranch());
         studentResponseDto.setCategory(student.getCategory());

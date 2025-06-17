@@ -1,7 +1,8 @@
-package com.in.sms.service;
+package com.in.sms.service.serviceImpl;
 
 import com.in.sms.model.Marks;
 import com.in.sms.repository.MarksRepository;
+import com.in.sms.service.serviceInterfaces.MarksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -2,7 +2,7 @@ package com.in.sms.controller;
 
 import com.in.sms.dto.SemesterResponseDto;
 import com.in.sms.model.Semester;
-import com.in.sms.service.SemesterService;
+import com.in.sms.service.serviceInterfaces.SemesterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;

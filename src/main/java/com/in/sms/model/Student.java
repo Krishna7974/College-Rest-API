@@ -1,16 +1,18 @@
 package com.in.sms.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.in.sms.customAnnotation.ValidPhoneNumber;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Student {
@@ -30,6 +32,9 @@ public class Student {
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Semester semester;
+
+    @ValidPhoneNumber
+    private String phoneNo;
 
     @Column(nullable = false,unique = true)
     private String branch;

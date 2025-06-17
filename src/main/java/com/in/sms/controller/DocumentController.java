@@ -1,7 +1,7 @@
 package com.in.sms.controller;
 
 import com.in.sms.model.Document;
-import com.in.sms.service.DocumentService;
+import com.in.sms.service.serviceInterfaces.DocumentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;

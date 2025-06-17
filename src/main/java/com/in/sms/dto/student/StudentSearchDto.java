@@ -12,4 +12,5 @@ public class StudentSearchDto {
     private String address;
     private String rollNo;
     private String email;
+    private String phoneNo;
 }

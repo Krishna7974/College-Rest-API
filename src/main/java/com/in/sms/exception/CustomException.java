@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class CustomException{
+public class CustomException extends RuntimeException {
     private LocalDateTime localDateTime;
     private String message;
 

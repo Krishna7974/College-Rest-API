@@ -4,11 +4,14 @@ import com.in.sms.dto.SemesterResponseDto;
 import com.in.sms.dto.student.StudentRequestDto;
 import com.in.sms.dto.student.StudentResponseDto;
 import com.in.sms.dto.student.StudentSearchDto;
+import com.in.sms.exception.CustomException;
 import com.in.sms.model.Parents;
 import com.in.sms.model.Semester;
 import com.in.sms.model.Student;
+import com.in.sms.model.User;
 import com.in.sms.repository.ParentsRepository;
 import com.in.sms.repository.StudentRepository;
+import com.in.sms.repository.UserRepository;
 import com.in.sms.service.serviceInterfaces.SemesterService;
 import com.in.sms.service.serviceInterfaces.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +39,26 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public StudentResponseDto saveStudent(StudentRequestDto requestDto) {
+        if(userRepository.existsByEmail(requestDto.getEmail())) {
+            throw new CustomException("User already exists with this email:  "+requestDto.getEmail());
+        }
         Student student=mapRequestToStudent(requestDto);
         student.setPassword(passwordEncoder.encode(requestDto.getPassword()));
+
+        // create a user
+
+        User user=new User();
+        user.setEmail(student.getEmail());
+        user.setName(student.getName());
+        user.setPassword(passwordEncoder.encode(requestDto.getPassword()));
+        user.setRole(student.getRoles().get(0));
+        userRepository.save(user);
+
         String sem=student.getSemester().getName();
         SemesterResponseDto semester= semesterService.getSemesterByName(sem);
         Semester s=mapToSemester(semester);

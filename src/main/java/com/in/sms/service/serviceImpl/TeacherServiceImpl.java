@@ -3,10 +3,13 @@ package com.in.sms.service.serviceImpl;
 import com.in.sms.dto.teacher.TeacherRequestDto;
 import com.in.sms.dto.teacher.TeacherResponseDto;
 import com.in.sms.dto.teacher.TeacherSearchDto;
+import com.in.sms.exception.CustomException;
 import com.in.sms.model.Subject;
 import com.in.sms.model.Teacher;
+import com.in.sms.model.User;
 import com.in.sms.repository.SubjectRepository;
 import com.in.sms.repository.TeacherRepository;
+import com.in.sms.repository.UserRepository;
 import com.in.sms.service.serviceInterfaces.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,10 +32,25 @@ public class TeacherServiceImpl implements TeacherService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public TeacherResponseDto saveTeacher(TeacherRequestDto teacher) {
 
+        if(userRepository.existsByEmail(teacher.getEmail())) {
+            throw new CustomException("User already exists with this email:  "+teacher.getEmail());
+        }
+
         Teacher t=mapTeacherRequestToTeacher(teacher);
+
+        User user =new User();
+        user.setEmail(t.getEmail());
+        user.setName(t.getName());
+        user.setPassword(passwordEncoder.encode(teacher.getPassword()));
+        user.setRole(t.getRoles().get(0));
+        userRepository.save(user);
+
         t.setSubject(getSubjectList(teacher.getSubject()));
         t.setPassword(passwordEncoder.encode(teacher.getPassword()));
         return mapTeacherToTeacherResponse(teacherRepository.save(t));

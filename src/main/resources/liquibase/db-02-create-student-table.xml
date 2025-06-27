@@ -1,0 +1,78 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd"
+>
+    <changeSet id="002-create-student-table" author="Krishna">
+        <createTable tableName="student">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="branch" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="category" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_no" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="roll_no" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="parents_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="semester_id" type="bigint"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="student"
+                                 baseColumnNames="semester_id"
+                                 constraintName="fk_student_semester"
+                                 referencedTableName="semester"
+                                 referencedColumnNames="id"
+        />
+
+        <addForeignKeyConstraint baseTableName="student"
+                                 baseColumnNames="parents_id"
+                                 constraintName="fk_student_parents"
+                                 referencedTableName="parents"
+                                 referencedColumnNames="id"
+        />
+
+    </changeSet>
+    <changeSet id="003-create-student_role-table" author="Krishna">
+        <createTable tableName="student_roles">
+            <column name="student_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="student_roles"
+                                 baseColumnNames="student_id"
+                                 constraintName="fk_student_role_student"
+                                 referencedTableName="student"
+                                 referencedColumnNames="id"
+        />
+        <addUniqueConstraint tableName="student_roles"
+                             columnNames="student_id,roles"
+                             constraintName="uk_student_roles_unique"/>
+        <createIndex tableName="student_roles" indexName="idx_student_id">
+            <column name="student_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

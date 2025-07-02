@@ -1,0 +1,28 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd"
+>
+    <changeSet id="05-create-teacher_subject-table" author="Krishna">
+        <createTable tableName="teacher_subject">
+            <column name="teacher_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="subject_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="teacher_subject"
+                                 baseColumnNames="teacher_id"
+                                 constraintName="fk_teacher_subject_teacher"
+                                 referencedTableName="teacher"
+                                 referencedColumnNames="id"
+        />
+        <addForeignKeyConstraint baseTableName="teacher_subject"
+                                 baseColumnNames="subject_id"
+                                 constraintName="fk_teacher_subject_subject"
+                                 referencedTableName="subject"
+                                 referencedColumnNames="id"
+        />
+    </changeSet>
+</databaseChangeLog>

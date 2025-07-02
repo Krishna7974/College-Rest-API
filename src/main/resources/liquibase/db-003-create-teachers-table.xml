@@ -1,7 +1,0 @@
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog">
-    <changeSet id="03-create-teacher-table" author="Krishna">
-        <createTable tableName="teacher">
-            <column name=""></column>
-        </createTable>
-    </changeSet>
-</databaseChangeLog>
